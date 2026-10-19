@@ -6,7 +6,7 @@ function updateProgress() {
   loadedAssets++;
   const progress = (loadedAssets / totalAssets) * 100;
   document.getElementById("loadingProgress").style.width = progress + "%";
-  document.getElementById("loadingText").textContent = `Loading... ${Math.round(
+  document.getElementById("loadingText").textContent = `Đang tải... ${Math.round(
     progress
   )}%`;
 
@@ -130,9 +130,13 @@ function animationTimeline() {
   }
 
   if (hbd) {
-    hbd.innerHTML = `<span>${hbd.innerHTML
-      .split("")
-      .join("</span><span>")}</span>`;
+    hbd.innerHTML = hbd.innerHTML
+      .split(/<br\s*\/?>/i)
+      .map(
+        (line) =>
+          `<span>${line.split("").join("</span><span>")}</span>`
+      )
+      .join("<br>");
   }
 
   const ideaTextTrans = {
@@ -394,7 +398,7 @@ function resumeExperience() {
 }
 
 function showPermissionRequest() {
-  blowInstruction.textContent = "🎤 Click here to enable microphone...";
+  blowInstruction.textContent = "🎤 Nhấn vào đây để thổi nến...";
   blowInstruction.style.animation = "pulse 2s infinite";
   blowInstruction.addEventListener("click", requestMicPermission, {
     once: true,
@@ -402,7 +406,7 @@ function showPermissionRequest() {
 }
 
 function requestMicPermission() {
-  blowInstruction.textContent = "🎤 Requesting microphone access...";
+  blowInstruction.textContent = "🎤 Cho phép truy cập microphone...";
 
   navigator.mediaDevices
     .getUserMedia({ audio: true })
@@ -419,7 +423,7 @@ function requestMicPermission() {
 }
 
 function setupClickFallback() {
-  blowInstruction.textContent = "💡 Click the cake to blow out candles! 💡";
+  blowInstruction.textContent = "💡 Chạm vào bánh sinh nhật để thổi nến! 💡";
   blowInstruction.style.animation = "pulse 2s infinite";
   cakeElement.addEventListener("click", blowCandles, { once: true });
 }
